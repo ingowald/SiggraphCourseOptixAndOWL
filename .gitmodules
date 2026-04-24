@@ -1,0 +1,3 @@
+[submodule "submodules/owl"]
+	path = submodules/owl
+	url = https://github.com/nvidia/owl
