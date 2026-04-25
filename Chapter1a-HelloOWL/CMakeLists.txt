@@ -6,13 +6,13 @@ cmake_minimum_required(VERSION 3.24)
 
 set(CMAKE_BUILD_TYPE_INIT "Release")
 
+project(Chapter1a-HelloOWL)
+
 # iw - only include OWL if we build this sample standalone (if we build
 # it as part of the parent directory this will already be defined)
 if (NOT(TARGET owl::owl))
   add_subdirectory(../submodules/owl builddir-owl EXCLUDE_FROM_ALL)
 endif()
-
-set(binaryName c1a-HelloOWL)
 
 # define what this chapter builds
 add_executable(c1a-HelloOWL
