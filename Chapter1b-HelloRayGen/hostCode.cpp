@@ -56,7 +56,7 @@ quite a lot, actually... and which would be a *real* lot without OWL!)
   OWLRayGen rg  = owlRayGenCreate(owl,mod,"helloOWL",
                                   0,
                                   nullptr,0);
-  assert(mod && "could not create raygen");
+  assert(rg && "could not create raygen");
 
   // ------------------------------------------------------------------
   std::cout << "- building actual device programs...\n";
@@ -73,7 +73,6 @@ quite a lot, actually... and which would be a *real* lot without OWL!)
   // ------------------------------------------------------------------
   std::cout << "- launching raygen...\n\n";
   owlRayGenLaunch2D(rg,/* launch with launch dims of 100x100: */100,100);
-  assert(mod && "could not create raygen");
 
   // ==================================================================
   std::cout << OWL_TERMINAL_LIGHT_BLUE

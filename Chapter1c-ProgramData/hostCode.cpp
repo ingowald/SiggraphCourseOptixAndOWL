@@ -105,7 +105,7 @@ This sample shows hwo to declare and set 'program data' for device programs.
      rgVars,
      // '-1' = rely on nullptr sentinal to mark end of list
      -1);
-  assert(mod && "could not create raygen");
+  assert(rg && "could not create raygen");
 
   // ------------------------------------------------------------------
   std::cout << "- building actual device programs...\n";
@@ -141,7 +141,6 @@ This sample shows hwo to declare and set 'program data' for device programs.
   // ------------------------------------------------------------------
   std::cout << "- launching raygen...\n\n";
   owlRayGenLaunch2D(rg,/* launch with launch dims of 100x100: */100,100);
-  assert(mod && "could not create raygen");
   
   // ==================================================================
   std::cout << OWL_TERMINAL_LIGHT_BLUE

@@ -43,36 +43,41 @@ back on the host (where we'll save it to disk).
   assert(mod && "could not create module");
   
   // ------------------------------------------------------------------
-  std::cout << "- creating raygen program object (now with program data)...\n";
-     /* ****************************************************************** */
-     /* difference from previous sample: we actually set useful values :-) */
-     /* ****************************************************************** */
+  std::cout << "- creating raygen program (data now moved to globals)...\n";
   OWLVarDecl rgVars[] = {
+    // empty for now; we moved all data to optixGlobals
+    { nullptr },
+  };
+  OWLRayGen rg  = owlRayGenCreate
+    (owl,mod,"renderTestFrame",sizeof(RayGenData),rgVars,-1);
+  assert(rg && "could not create raygen");
+
+  // ------------------------------------------------------------------
+  std::cout << "- creating LaunchParams object to set optixGlobals...\n";
+  OWLVarDecl lpVars[] = {
     // ------------------------------------------------------------------
     { "fb.size",
       OWL_INT2,
-      OWL_OFFSETOF(RayGenData,frameBuffer.size) },
+      OWL_OFFSETOF(OptixGlobals,frameBuffer.size) },
     // ------------------------------------------------------------------
     { "fb.data",
       OWL_BUFPTR,
-      OWL_OFFSETOF(RayGenData,frameBuffer.data) },
+      OWL_OFFSETOF(OptixGlobals,frameBuffer.data) },
     // ------------------------------------------------------------------
     /* last entry is a nullptr for name; this serves as 'sentinel' to
        mark end of list */
     { nullptr },
   };
-  OWLRayGen rg  = owlRayGenCreate
-    (owl,mod,"renderTestFrame",
-     /* ****************************************************************** */
-     /* difference from previous sample: passing size of ray gen data,
-        and the varDecls that describe its members. */
-     /* ****************************************************************** */
-     sizeof(RayGenData),
-     // array of vardecls that describe the members of that struct
-     rgVars,
-     // '-1' = rely on nullptr sentinal to mark end of list
-     -1);
-  assert(rg && "could not create raygen");
+
+  // ******************************************************************
+  // DELTA: in this sample we create some laumch params object; the
+  // data of which is what will go into the optixGlobals. We create
+  // this through the same parameters mechanism as for a raygen;
+  // except we have no module and no entrypoint becuse it's not a
+  // program, it just stores data.
+  // ******************************************************************
+  OWLLaunchParams lp  = owlParamsCreate(owl,sizeof(OptixGlobals),lpVars,-1);
+  assert(lp && "could not create launch params");
 
   // ------------------------------------------------------------------
   std::cout << "- building actual device programs...\n";
@@ -92,8 +97,8 @@ back on the host (where we'll save it to disk).
   
   // ------------------------------------------------------------------
   std::cout << "- setting the raygen data values (BEFORE building sbt!!!)...\n";
-  owlRayGenSet2i(rg,"fb.size",fbSize.x,fbSize.y);
-  owlRayGenSetBuffer(rg,"fb.data",fb);
+  owlParamsSet2i(lp,"fb.size",fbSize.x,fbSize.y);
+  owlParamsSetBuffer(lp,"fb.data",fb);
 
   // ------------------------------------------------------------------
   std::cout << "- building SBT (no geoms, but raygen is part of SBT, too!)...\n";
@@ -101,7 +106,7 @@ back on the host (where we'll save it to disk).
   
   // ------------------------------------------------------------------
   std::cout << "- launching raygen...\n\n";
-  owlRayGenLaunch2D(rg,fbSize.x,fbSize.y);
+  owlLaunch2D(rg,fbSize.x,fbSize.y,lp);
   
   // ==================================================================
   std::cout << OWL_TERMINAL_LIGHT_BLUE
@@ -118,7 +123,7 @@ back on the host (where we'll save it to disk).
              cudaMemcpyDefault);
   cudaDeviceSynchronize();
 
-  const char *outFileName = "c1d-FirstBufferAndTestFrame.jpg";
+  const char *outFileName = "c1e-OptixGlobalsAndLaunchParams.jpg";
   std::cout << "- saving image (via STB) in " << outFileName << "...\n";
   stbi_write_jpg(outFileName,fbSize.x,fbSize.y,4,
                  hostPixels.data(),fbSize.x*sizeof(uint32_t));
@@ -127,8 +132,14 @@ back on the host (where we'll save it to disk).
   std::cout << OWL_TERMINAL_LIGHT_BLUE
             << "\nImage saved; sample done; cleaning up:\n"
             << OWL_TERMINAL_DEFAULT;
-  
+
   // ------------------------------------------------------------------
+#if 1
+  PING;
+#else
+  std::cout << "- releasing launchparams...\n";
+  owlParamsRelease(lp);
+#endif
   std::cout << "- releasing buffer...\n";
   owlBufferRelease(fb);
   std::cout << "- releasing raygen...\n";

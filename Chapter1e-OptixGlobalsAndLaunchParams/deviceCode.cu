@@ -4,10 +4,11 @@
 
 #include "deviceCode.h"
 
+__constant__ OptixGlobals optixLaunchParams;
+
 OPTIX_RAYGEN_PROGRAM(renderTestFrame)()
 {
-  const RayGenData &self = owl::getProgramData<RayGenData>();
-  auto fb = self.frameBuffer;
+  auto fb = optixLaunchParams.frameBuffer;
   
   vec2i pixel = owl::getLaunchIndex();
   if (pixel.x >= fb.size.x) return;
