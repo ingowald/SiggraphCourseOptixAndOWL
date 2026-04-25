@@ -15,3 +15,4 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 
 add_subdirectory(Chapter1a-HelloOWL)
 add_subdirectory(Chapter1b-HelloRayGen)
+add_subdirectory(Chapter1c-ProgramData)
