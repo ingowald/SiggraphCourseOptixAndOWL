@@ -6,8 +6,7 @@
 
 OPTIX_RAYGEN_PROGRAM(helloOWL)()
 {
-
-    // first, we need to ask optix/owl for the program data that we have
+  // first, we need to ask optix/owl for the program data that we have
   // set this type of raygen program up with (that data is stored in
   // the SBT and optix allows us to get a pointer to that SBT
   // data). There's two different -- and totally equivalent --- ways
