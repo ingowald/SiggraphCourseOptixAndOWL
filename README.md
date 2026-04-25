@@ -8,7 +8,7 @@ progress so far:
 
 # Chapter 1
 
-## Step 1a [Hello OWL](http://Chapter1a-HelloOWL)
+## Step 1a: "Hello OWL" ([Chapter1aHelloOWL](http://Chapter1a-HelloOWL))
 
 ## Step 1b Hello RayGen
 
