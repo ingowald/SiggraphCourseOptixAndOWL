@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.24)
 
 set(CMAKE_BUILD_TYPE_INIT "Release")
 
-project(Chapter1b-HelloRayGen LANGUAGES CXX CUDA)
+project(Chapter1c-ProgramData LANGUAGES CXX CUDA)
 
 if (NOT(TARGET owl::owl))
   add_subdirectory(../submodules/owl builddir-owl EXCLUDE_FROM_ALL)

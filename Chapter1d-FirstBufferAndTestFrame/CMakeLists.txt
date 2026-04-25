@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.24)
 
 set(CMAKE_BUILD_TYPE_INIT "Release")
 
-project(Chapter1b-HelloRayGen LANGUAGES CXX CUDA)
+project(Chapter1d-FirstBufferAndTestFrame LANGUAGES CXX CUDA)
 
 if (NOT(TARGET owl::owl))
   add_subdirectory(../submodules/owl builddir-owl EXCLUDE_FROM_ALL)
@@ -31,13 +31,13 @@ embed_ptx(
   )
 
 # define what this chapter builds
-add_executable(c1d-ProgramData
+add_executable(c1d-FirstBufferAndTestFrame
   hostCode.cpp
 )
 
 # (cmake-)link this to the owl::OWL target; this will automatically
 # set the include paths, add the dependency to the OWL library, etc.
-target_link_libraries(c1d-ProgramData
+target_link_libraries(c1d-FirstBufferAndTestFrame
   owl::owl
   c1d_embedded_deviceCode
 )

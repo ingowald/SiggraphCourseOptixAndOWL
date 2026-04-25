@@ -134,12 +134,8 @@ back on the host (where we'll save it to disk).
             << OWL_TERMINAL_DEFAULT;
 
   // ------------------------------------------------------------------
-#if 1
-  PING;
-#else
   std::cout << "- releasing launchparams...\n";
   owlParamsRelease(lp);
-#endif
   std::cout << "- releasing buffer...\n";
   owlBufferRelease(fb);
   std::cout << "- releasing raygen...\n";
