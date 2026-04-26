@@ -14,6 +14,10 @@
 
 using namespace owl::common;
 
+struct SomeDummyRawData {
+  uint8_t bytes[31];
+};
+
 /*! the data we want to store with the ray gen program. For this
     introductory sample we just use some random choice of different
     data to show what's possible; we're not even setting the buffer,
@@ -23,7 +27,7 @@ using namespace owl::common;
 struct RayGenData {
   int                 someInteger;
   vec3f               somePointOrVector;
-  uint8_t             aRawUnformattedRegion[31];
+  SomeDummyRawData    aRawUnformattedRegion[31];
   
   // we're not actually setting this in this sample, yet; this just
   // shows how it can eb declared.

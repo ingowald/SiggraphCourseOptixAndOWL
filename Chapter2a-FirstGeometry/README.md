@@ -1,15 +1,7 @@
-- miss program
+change hardcoded trianlge mesh to reading a scene (with miniscene)
 
-- ch program
+- add miniscene loader.
 
-- create TrianglesGeomData (empty for now)
+- create one geom per miniscene geom
 
-- create geom type
 
-- create geom
-
-- create buffer of vertices, and assign
-
-- create buffer of indices, and assign
-
-- add world to globals, and assign

@@ -55,7 +55,7 @@ This sample shows hwo to declare and set 'program data' for device programs.
       OWL_OFFSETOF(RayGenData,somePointOrVector) },
     // ------------------------------------------------------------------
     { "aRawUnformattedRegion",
-      OWL_USER_TYPE(sizeof(RayGenData::aRawUnformattedRegion)),
+      OWL_USER_TYPE(SomeDummyRawData),
       OWL_OFFSETOF(RayGenData,aRawUnformattedRegion) },
     // ------------------------------------------------------------------
     { "someRawPointer",
@@ -125,9 +125,9 @@ This sample shows hwo to declare and set 'program data' for device programs.
   // sets a 64-bit pointer value
   owlRayGenSetPointer(rg,"someRawPointer",(void*)0x1234567);
     
-  char someString[] = "s1234567s";
+  char someString[sizeof(SomeDummyRawData)] = "s1234567s";
   // this just copies 'sizeof()' bytes, without caring what it is.
-  owlRayGenSetRaw(rg,"aRawUnformattedRegion",someString,sizeof(someString));
+  owlRayGenSetRaw(rg,"aRawUnformattedRegion",someString);
   // set all of the advanted types to NULL handles; we'll introduce
   // those in later samples, for now just show how they _could_ be set
   // if we had any.

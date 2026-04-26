@@ -1,3 +1,6 @@
 [submodule "submodules/owl"]
 	path = submodules/owl
 	url = https://github.com/nvidia/owl
+[submodule "submodules/miniScene"]
+	path = submodules/miniScene
+	url = https://github.com/ingowald/miniScene

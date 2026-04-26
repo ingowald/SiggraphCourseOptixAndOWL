@@ -10,6 +10,7 @@ project(Chapter1e-OptixGlobalsAndLaunchParams LANGUAGES CXX CUDA)
 
 if (NOT(TARGET owl::owl))
   add_subdirectory(../submodules/owl builddir-owl EXCLUDE_FROM_ALL)
+  add_subdirectory(../submodules/owl/3rdParty/stb_image builddir-stb EXCLUDE_FROM_ALL)
 endif()
 
 # precompile and embed the device code
@@ -35,4 +36,5 @@ add_executable(c1e-OptixGlobalsAndLaunchParams
 target_link_libraries(c1e-OptixGlobalsAndLaunchParams
   owl::owl_static
   c1e_embedded_deviceCode
+  stb_image
 )

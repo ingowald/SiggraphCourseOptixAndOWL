@@ -20,3 +20,5 @@ add_subdirectory(Chapter1d-FirstBufferAndTestFrame)
 add_subdirectory(Chapter1e-OptixGlobalsAndLaunchParams)
 
 add_subdirectory(Chapter2a-FirstGeometry)
+add_subdirectory(Chapter2b-FirstRealScene)
+

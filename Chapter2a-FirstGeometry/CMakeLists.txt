@@ -10,6 +10,7 @@ project(Chapter2a-FirstGeometry LANGUAGES CXX CUDA)
 
 if (NOT(TARGET owl::owl))
   add_subdirectory(../submodules/owl builddir-owl EXCLUDE_FROM_ALL)
+  add_subdirectory(../submodules/owl/3rdParty/stb_image builddir-stb EXCLUDE_FROM_ALL)
 endif()
 
 # precompile and embed the device code
@@ -35,4 +36,5 @@ add_executable(c2a-FirstGeometry
 target_link_libraries(c2a-FirstGeometry
   owl::owl_static
   c2a_embedded_deviceCode
+  stb_image
 )

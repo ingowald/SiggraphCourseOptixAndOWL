@@ -8,7 +8,7 @@
 #include <vector>
 // stb, to write the image
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "../3rdParty/stb_image_write.h"
+#include "stb/stb_image_write.h"
 
 // the "embedded" precompiled PTX-code from our deviceCode.cu. 
 extern "C" char deviceCode_ptx[];
