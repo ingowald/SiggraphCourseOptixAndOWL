@@ -12,19 +12,14 @@ if (NOT(TARGET owl::owl))
   add_subdirectory(../submodules/owl builddir-owl EXCLUDE_FROM_ALL)
 endif()
 
-# ##################################################################
-# the main difference to the previous sample: we have some device-side
-# code that we have to (pre-)compile to PTX, the result of which we
-# have to embed (as a C string) into the generated binary. We can use
-# the OWL 'embed_ptx()' helper macro for that:
-# ##################################################################
+# precompile and embed the device code
 embed_ptx(
   OUTPUT_TARGET
   # this is what the main app will link against:
   c1e_embedded_deviceCode
   
   PTX_LINK_LIBRARIES
-  owl::owl
+  owl::owl_static
   
   SOURCES
   deviceCode.cu
@@ -38,6 +33,6 @@ add_executable(c1e-OptixGlobalsAndLaunchParams
 # (cmake-)link this to the owl::OWL target; this will automatically
 # set the include paths, add the dependency to the OWL library, etc.
 target_link_libraries(c1e-OptixGlobalsAndLaunchParams
-  owl::owl
+  owl::owl_static
   c1e_embedded_deviceCode
 )

@@ -18,3 +18,5 @@ add_subdirectory(Chapter1b-HelloRayGen)
 add_subdirectory(Chapter1c-ProgramData)
 add_subdirectory(Chapter1d-FirstBufferAndTestFrame)
 add_subdirectory(Chapter1e-OptixGlobalsAndLaunchParams)
+
+add_subdirectory(Chapter2a-FirstGeometry)

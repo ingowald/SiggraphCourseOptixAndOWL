@@ -6,7 +6,7 @@ course.
 
 progress so far:
 
-# Chapter 1
+# Chapter 1 -- From "hello world" to some first (Test-)Frames
 
 ## Step 1a: "Hello OWL" ([Chapter1a-HelloOWL](http://Chapter1a-HelloOWL))
 
@@ -127,3 +127,41 @@ Shows:
 
 
   
+# Chapter 2 -- Our First Geometry
+
+- 1a: Tracing our first rays (two simple triangles, hardcoded, single instance)
+
+- 1b: our first "real" scene
+
+- 1c: instances
+
+
+# Chapter 3 -- Better Shading
+
+- per ray data
+
+- per-geometry program data
+
+- per-triangle data / shading normals
+
+- textures
+
+- secondary rays
+
+- any-hit program
+
+- path tracing
+
+# Chapter 4 -- Advanced Topics
+
+- user geometry
+
+- async launches
+
+- multi-gpu (implicit)
+
+- multi-gpu (explicit)
+
+- denoising
+
+

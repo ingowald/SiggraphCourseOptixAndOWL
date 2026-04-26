@@ -6,22 +6,17 @@ cmake_minimum_required(VERSION 3.24)
 
 set(CMAKE_BUILD_TYPE_INIT "Release")
 
-project(Chapter1b-HelloRayGen LANGUAGES CXX CUDA)
+project(Chapter2a-FirstGeometry LANGUAGES CXX CUDA)
 
 if (NOT(TARGET owl::owl))
   add_subdirectory(../submodules/owl builddir-owl EXCLUDE_FROM_ALL)
 endif()
 
-# ##################################################################
-# the main difference to the previous sample: we have some device-side
-# code that we have to (pre-)compile to PTX, the result of which we
-# have to embed (as a C string) into the generated binary. We can use
-# the OWL 'embed_ptx()' helper macro for that:
-# ##################################################################
+# precompile and embed the device code
 embed_ptx(
   OUTPUT_TARGET
   # this is what the main app will link against:
-  c1b_embedded_deviceCode
+  c2a_embedded_deviceCode
   
   PTX_LINK_LIBRARIES
   owl::owl_static
@@ -30,15 +25,14 @@ embed_ptx(
   deviceCode.cu
   )
 
-
 # define what this chapter builds
-add_executable(c1b-HelloRayGen
+add_executable(c2a-FirstGeometry
   hostCode.cpp
 )
 
 # (cmake-)link this to the owl::OWL target; this will automatically
 # set the include paths, add the dependency to the OWL library, etc.
-target_link_libraries(c1b-HelloRayGen
+target_link_libraries(c2a-FirstGeometry
   owl::owl_static
-  c1b_embedded_deviceCode
+  c2a_embedded_deviceCode
 )

@@ -22,5 +22,5 @@ add_executable(c1a-HelloOWL
 # (cmake-)link this to the owl::OWL target; this will automatically
 # set the include paths, add the dependency to the OWL library, etc.
 target_link_libraries(c1a-HelloOWL
-  owl::owl
+  owl::owl_static
 )

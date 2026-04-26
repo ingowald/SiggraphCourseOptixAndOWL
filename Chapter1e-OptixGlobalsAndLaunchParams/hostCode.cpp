@@ -17,15 +17,14 @@ int main(int ac, char **av)
 {
   std::cout << OWL_TERMINAL_LIGHT_BLUE << R"(
 **********************************************************************
-Chapter1d-FirstBufferAndTestFrame:
+c1e-OptixGlobalsAndLaunchParams:
 **********************************************************************
             )" << OWL_TERMINAL_DEFAULT;
   
   std::cout << R"(
-In this sample we'll create our first device buffer to hold a frame
-buffer in, we'll change out raygen value to actually render a simple
-test frame into this frame buffer, and show how to get these pixels
-back on the host (where we'll save it to disk).
+In this sample we show how to use __global__ optixLauchParams instead
+of SBT data to pass data to device program(s). Otherwise this computes
+the same image as sample 1d.
 )";
 
   // ==================================================================
@@ -88,6 +87,11 @@ back on the host (where we'll save it to disk).
   owlBuildPipeline(owl);
 
   // ------------------------------------------------------------------
+  std::cout << "- building SBT (can do that before setting launch params)...\n";
+  owlBuildSBT(owl);
+  
+  
+  // ------------------------------------------------------------------
   std::cout << "- creating a buffer to store the frame in...\n";
   // let's do a 1200x800 image...
   vec2i fbSize = vec2i(1200,800);
@@ -96,16 +100,12 @@ back on the host (where we'll save it to disk).
                                        nullptr);
   
   // ------------------------------------------------------------------
-  std::cout << "- setting the raygen data values (BEFORE building sbt!!!)...\n";
+  std::cout << "- setting the launch params data values...\n";
   owlParamsSet2i(lp,"fb.size",fbSize.x,fbSize.y);
   owlParamsSetBuffer(lp,"fb.data",fb);
 
   // ------------------------------------------------------------------
-  std::cout << "- building SBT (no geoms, but raygen is part of SBT, too!)...\n";
-  owlBuildSBT(owl);
-  
-  // ------------------------------------------------------------------
-  std::cout << "- launching raygen...\n\n";
+  std::cout << "- launching raygen programs with launch params...\n\n";
   owlLaunch2D(rg,fbSize.x,fbSize.y,lp);
   
   // ==================================================================
