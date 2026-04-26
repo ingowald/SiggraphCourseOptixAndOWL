@@ -16,7 +16,7 @@
 extern "C" char deviceCode_ptx[];
 
 vec3f toOWL(mini::common::vec3f v)
-{ return { v.x,v.y,v.z }; }
+{ return vec3f{ v.x,v.y,v.z }; }
          
 int main(int ac, char **av)
 {
@@ -80,7 +80,7 @@ back on the host (where we'll save it to disk).
     up = {0.f,1.f,0.f};
     at = toOWL(worldBounds.center());
     vec3f diag = toOWL(worldBounds.size());
-    from = at + vec3f(-.1f, .2f, +2.f) * diag;
+    from = at + 1.5f*vec3f(-.15f, .2f, +1.f) * diag.y;
   }
   
   if (scene->instances.size() != 1)
@@ -277,7 +277,6 @@ back on the host (where we'll save it to disk).
   // ------------------------------------------------------------------
   std::cout << "- setting frame buffer data in launch params...\n";
   Camera camera(from,at,up,fbSize);
-  PRINT(camera.dir_00);
   owlParamsSetRaw(lp,"camera",&camera);
   owlParamsSet2i(lp,"fb.size",fbSize.x,fbSize.y);
   owlParamsSetBuffer(lp,"fb.data",fb);
