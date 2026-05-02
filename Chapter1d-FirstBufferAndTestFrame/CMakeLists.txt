@@ -10,7 +10,9 @@ project(Chapter1d-FirstBufferAndTestFrame LANGUAGES CXX CUDA)
 
 if (NOT(TARGET owl::owl))
   add_subdirectory(../submodules/owl builddir-owl EXCLUDE_FROM_ALL)
-  add_subdirectory(../submodules/owl/3rdParty/stb_image builddir-stb EXCLUDE_FROM_ALL)
+endif()
+if (NOT(TARGET stb_image))
+  add_subdirectory(../submodules/glfwViewer/3rdParty/stb_image builddir-stb EXCLUDE_FROM_ALL)
 endif()
 
 # precompile and embed the device code

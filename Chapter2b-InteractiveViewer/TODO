@@ -1,0 +1,10 @@
+- OWLViewer base class
+
+- separate out OWLViewer::initPipeline
+
+- OWLViewer::fbPointer and OWLViewer::fbSize - cuda managed memory, no
+  need for frame buffer any more. note fb is now POITNER, not BUFFER, need to update lpVars accordingly
+
+- owlviewer camera: horizontal, vertical, ...
+
+- add camera to LP/globals

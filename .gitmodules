@@ -4,3 +4,6 @@
 [submodule "submodules/miniScene"]
 	path = submodules/miniScene
 	url = https://github.com/ingowald/miniScene
+[submodule "submodules/glfwViewer"]
+	path = submodules/glfwViewer
+	url = https://github.com/owl-project/glfwViewer
