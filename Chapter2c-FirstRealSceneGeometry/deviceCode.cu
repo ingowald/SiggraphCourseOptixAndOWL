@@ -31,6 +31,9 @@ OPTIX_CLOSEST_HIT_PROGRAM(TrianglesCH)()
   vec3f shadeColor = { bary.x, bary.y, 1.f-bary.x-bary.y };
 #endif
   
+  // poor-man's "gamma correction"
+  shadeColor = sqrt(shadeColor);
+  
   vec2i pixel = owl::getLaunchIndex();
   fb.data[pixel.x+pixel.y*fb.size.x] = owl::make_rgba(shadeColor);
 }
