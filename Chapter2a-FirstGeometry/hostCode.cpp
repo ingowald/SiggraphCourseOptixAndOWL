@@ -244,6 +244,7 @@ back on the host (where we'll save it to disk).
 
   const char *outFileName = "c2a-FirstGeometry.jpg";
   std::cout << "- saving image (via STB) in " << outFileName << "...\n";
+  stbi_flip_vertically_on_write(true);
   stbi_write_jpg(outFileName,fbSize.x,fbSize.y,4,
                  hostPixels.data(),fbSize.x*sizeof(uint32_t));
   

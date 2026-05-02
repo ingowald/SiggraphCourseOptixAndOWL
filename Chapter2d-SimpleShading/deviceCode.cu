@@ -34,6 +34,8 @@ OPTIX_CLOSEST_HIT_PROGRAM(TrianglesCH)()
     + 0.8f*self.baseColor;
   vec3f shadeColor = (.2f+.6f*fabsf(dot(n,dir)))*baseColor;
 
+  // poor-man's "gamma correction"
+  shadeColor = sqrt(shadeColor);
 
   auto fb = optixLaunchParams.frameBuffer;
   vec2i pixel = owl::getLaunchIndex();

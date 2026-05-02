@@ -302,7 +302,7 @@ void SampleViewer::render()
             << "\n(First) frame done rendering... (will only print this once)\n\n"
             << OWL_TERMINAL_DEFAULT;
   
-    const char *outFileName = "c2d-SimpleShading.jpg";
+    const char *outFileName = "c2e-Instances.jpg";
     std::cout << "- saving image (via STB) in " << outFileName << "...\n";
     // OWLViewer::fbPointer is in managed memory, so readable on host
     stbi_write_jpg(outFileName,fbSize.x,fbSize.y,4,
@@ -329,7 +329,7 @@ int main(int ac, char **av)
 {
   std::cout << OWL_TERMINAL_LIGHT_BLUE << R"(
 **********************************************************************
-Chapter2d-SimpleShading:
+Chapter2e-Instances:
 **********************************************************************
             )" << OWL_TERMINAL_DEFAULT;
   
@@ -386,7 +386,7 @@ geometries, blas, and tlas for that geometry.
   
   std::cout << "- creating viewer (and letting it initialize itself)...\n";
   SampleViewer *sampleViewer = new SampleViewer(scene);
-  sampleViewer->setTitle("Chapter2d-SimpleShading");
+  sampleViewer->setTitle("Chapter2e-Instances");
   // enable viewer's 'fly' and 'inspect' camera modes (last one
   // becomes default)
   sampleViewer->enableFlyMode();

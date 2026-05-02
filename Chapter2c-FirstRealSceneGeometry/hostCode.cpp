@@ -289,6 +289,7 @@ void SampleViewer::render()
     const char *outFileName = "c2c-FirstRealSceneGeometry.jpg";
     std::cout << "- saving image (via STB) in " << outFileName << "...\n";
     // OWLViewer::fbPointer is in managed memory, so readable on host
+    stbi_flip_vertically_on_write(true);
     stbi_write_jpg(outFileName,fbSize.x,fbSize.y,4,
                    fbPointer,fbSize.x*sizeof(uint32_t));
     std::cout << "- done saving; now back to interactive rendering...\n";
