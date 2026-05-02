@@ -30,6 +30,7 @@ OPTIX_CLOSEST_HIT_PROGRAM(TrianglesCH)()
   vec2f bary = optixGetTriangleBarycentrics(); 
   vec3f shadeColor = { bary.x, bary.y, 1.f-bary.x-bary.y };
 #endif
+  
   vec2i pixel = owl::getLaunchIndex();
   fb.data[pixel.x+pixel.y*fb.size.x] = owl::make_rgba(shadeColor);
 }

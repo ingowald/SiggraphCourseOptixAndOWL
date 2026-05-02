@@ -18,18 +18,24 @@ OPTIX_MISS_PROGRAM(missProg)()
 
 OPTIX_CLOSEST_HIT_PROGRAM(TrianglesCH)()
 {
-  auto fb = optixLaunchParams.frameBuffer;
-#if 0
-  // set pixel to some pseudo-random color based on prim
-  // ID. owl-device has some helper functions for doing this, as well
-  // as for converting from float3 color to rgba8.
+  auto self = owl::getProgramData<TrianglesGeomData>();
+
   int primID = optixGetPrimitiveIndex();
-  vec3f shadeColor = owl::randomColor(primID);
-#else
-  // set pixel color to barycentric coordinates of hit
-  vec2f bary = optixGetTriangleBarycentrics(); 
-  vec3f shadeColor = { bary.x, bary.y, 1.f-bary.x-bary.y };
-#endif
+  vec3i triangle = self.indices[primID];
+  vec3f a = self.vertices[triangle.x];
+  vec3f b = self.vertices[triangle.y];
+  vec3f c = self.vertices[triangle.z];
+  vec3f n = normalize(cross(b-a,c-a));
+
+  vec3f dir = optixGetWorldRayDirection();
+  dir = normalize(dir);
+  vec3f baseColor
+    = 0.2f*owl::randomColor(primID)
+    + 0.8f*self.baseColor;
+  vec3f shadeColor = (.2f+.6f*fabsf(dot(n,dir)))*baseColor;
+
+
+  auto fb = optixLaunchParams.frameBuffer;
   vec2i pixel = owl::getLaunchIndex();
   fb.data[pixel.x+pixel.y*fb.size.x] = owl::make_rgba(shadeColor);
 }

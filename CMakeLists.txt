@@ -21,4 +21,6 @@ add_subdirectory(Chapter1e-OptixGlobalsAndLaunchParams)
 
 add_subdirectory(Chapter2a-FirstGeometry)
 add_subdirectory(Chapter2b-InteractiveViewer)
+add_subdirectory(Chapter2c-FirstRealSceneGeometry)
+add_subdirectory(Chapter2d-SimpleShading)
 
