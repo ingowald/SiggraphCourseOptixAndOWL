@@ -323,6 +323,7 @@ more interesting content in the coming samples.
 
   std::cout << "- creating viewer (and letting it initialize itself)...\n";
   SampleViewer *sampleViewer = new SampleViewer;
+  sampleViewer->setTitle("Chapter2b-InteractiveViewer");
   // enable viewer's 'fly' and 'inspect' camera modes (last one
   // becomes default)
   sampleViewer->enableFlyMode();
