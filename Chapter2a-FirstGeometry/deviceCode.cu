@@ -45,11 +45,11 @@ OPTIX_RAYGEN_PROGRAM(renderTestFrame)()
 
   // hard-coded camera for a camera at y=-2, and a 2x2 sized image
   // plane around the origin (ie, from x=-1,z=-1 to x=+1,z=+1)
-  vec3f rayOrigin = { 0.f, -2.f, 0.f };
+  vec3f rayOrigin = { 0.f, 0.f, 3.f };
   vec3f imagePlanePoint
-    = vec3f(-1.f,0.f,-1.f)
+    = vec3f(-1.f,-1.f, +1.f)
     + u * vec3f(2.f,0.f,0.f)
-    + v * vec3f(0.f,0.f,2.f);
+    + v * vec3f(0.f,2.f,0.f);
   vec3f rayDirection = imagePlanePoint - rayOrigin;
 
   // generate the OWL ray, and trace it into the scene

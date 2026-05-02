@@ -280,12 +280,15 @@ void SampleViewer::render()
     std::cout << "- launching raygen...\n\n";  
   owlLaunch2D(rg,fbSize.x,fbSize.y,lp);
   if (firstFrameOnly) {
-    std::cout << "- frame DONE...\n\n";
+  std::cout << OWL_TERMINAL_LIGHT_GREEN
+            << "\n(First) frame done rendering... (will only print this once)\n\n"
+            << OWL_TERMINAL_DEFAULT;
     const char *outFileName = "c2b-InteractiveViewer.jpg";
     std::cout << "- saving image (via STB) in " << outFileName << "...\n";
     // OWLViewer::fbPointer is in managed memory, so readable on host
     stbi_write_jpg(outFileName,fbSize.x,fbSize.y,4,
                    fbPointer,fbSize.x*sizeof(uint32_t));
+    std::cout << "- done saving; now back to interactive rendering...\n";
   }
 }
 

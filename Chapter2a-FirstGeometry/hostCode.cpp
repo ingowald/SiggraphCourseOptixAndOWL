@@ -139,10 +139,15 @@ back on the host (where we'll save it to disk).
   // ------------------------------------------------------------------
   std::cout << "- set triangle mesh's vertex array...\n";
   std::vector<vec3f> vertices = {
-    { -.8, 0.f, -.8f },
-    { +.8, 0.f, -.8f },
-    { -.8, 0.f, +.8f },
-    { +.8, 0.f, +.8f } };
+    { -.8f, -.8f, -.8f },
+    { +.8f, -.8f, -.8f },
+    { -.8f, -.8f, +.8f },
+    { +.8f, -.8f, +.8f },
+    { -.8f, +.8f, -.8f },
+    { +.8f, +.8f, -.8f },
+    { -.8f, +.8f, +.8f },
+    { +.8f, +.8f, +.8f }
+  };
   OWLBuffer verticesBuffer
     = owlDeviceBufferCreate(owl,OWL_FLOAT3,vertices.size(),vertices.data());
   assert(verticesBuffer && "could not create vertices buffer");
@@ -155,8 +160,13 @@ back on the host (where we'll save it to disk).
   // ------------------------------------------------------------------
   std::cout << "- set triangle mesh's index array...\n";
   std::vector<vec3i> indices = {
-    { 0,1,3 },
-    { 0,3,2 } };
+    { 0,1,3 }, { 2,0,3 },
+    { 5,7,6 }, { 5,6,4 },
+    { 0,4,5 }, { 0,5,1 },
+    { 2,3,7 }, { 2,7,6 },
+    { 1,5,7 }, { 1,7,3 },
+    { 4,0,2 }, { 4,2,6 }
+  };
   OWLBuffer indicesBuffer
     = owlDeviceBufferCreate(owl,OWL_INT3,indices.size(),indices.data());
   assert(indicesBuffer && "could not create indices buffer");
@@ -198,8 +208,10 @@ back on the host (where we'll save it to disk).
 
   // ------------------------------------------------------------------
   std::cout << "- creating a buffer to store the frame in...\n";
-  // let's do a 1200x800 image...
-  vec2i fbSize = vec2i(1200,800);
+  // let's do a 1024^2 image. Note this is intentionally square
+  // because the trival hardcoded 'camera' that this samples' raygen
+  // program uses can't do aspect ration, yet
+  vec2i fbSize = vec2i(1024,1024);
   OWLBuffer fb = owlDeviceBufferCreate(owl,OWL_INT,fbSize.x*fbSize.y,
                                        /* no host data to upload */
                                        nullptr);

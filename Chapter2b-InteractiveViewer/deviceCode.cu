@@ -9,8 +9,8 @@ __constant__ OptixGlobals optixLaunchParams;
 OPTIX_MISS_PROGRAM(missProg)()
 {
   auto fb = optixLaunchParams.frameBuffer;
-  // full white background:
-  uint32_t bgColor = 0xffaaaaaa;
+  // slightly off-white background:
+  uint32_t bgColor = 0xffdddddd;
   
   vec2i pixel = owl::getLaunchIndex();
   fb.data[pixel.x+pixel.y*fb.size.x] = bgColor;
@@ -25,7 +25,7 @@ OPTIX_CLOSEST_HIT_PROGRAM(TrianglesCH)()
   // ID. owl-device has some helper functions for doing this, as well
   // as for converting from float3 color to rgba8.
   int primID = optixGetPrimitiveIndex();
-  vec3f shadeColor = owl::randomColor(290374+primID);
+  vec3f shadeColor = owl::randomColor(primID);
 
   vec2i pixel = owl::getLaunchIndex();
   fb.data[pixel.x+pixel.y*fb.size.x] = owl::make_rgba(shadeColor);
