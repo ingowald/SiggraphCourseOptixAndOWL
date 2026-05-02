@@ -329,7 +329,7 @@ int main(int ac, char **av)
 {
   std::cout << OWL_TERMINAL_LIGHT_BLUE << R"(
 **********************************************************************
-Chapter2b-InteractiveViewer:
+Chapter2d-SimpleShading:
 **********************************************************************
             )" << OWL_TERMINAL_DEFAULT;
   
