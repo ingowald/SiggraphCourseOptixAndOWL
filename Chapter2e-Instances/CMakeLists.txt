@@ -13,6 +13,8 @@ if (NOT(TARGET owl::owl))
 endif()
 if(NOT(TARGET owlGLFWViewer))
   # interactive viewer base
+  # Bundled GLFW declares compatibility with CMake 3.0, which CMake 4 rejects.
+  set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
   add_subdirectory(../submodules/glfwViewer builddir-glfwViewer EXCLUDE_FROM_ALL)
 endif()
 if (NOT(TARGET miniScene))
