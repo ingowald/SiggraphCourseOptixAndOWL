@@ -27,4 +27,6 @@ add_subdirectory(Chapter2e-Instances)
 
 add_subdirectory(Chapter3a-PerRayData)
 add_subdirectory(Chapter3b-ShadowRays)
+add_subdirectory(Chapter3c-MultipleRayTypesAnyHitAndTerminateRay)
+add_subdirectory(Chapter3d-Textures)
 

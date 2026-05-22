@@ -1,0 +1,18 @@
+
+
+create texture loader
+- get mini material, and read its colortexture
+- create owl texture from that (or {} if none set)
+
+add cudaTextureObject_t to device side TriangleGeomData
+
+declare OWL_TEXTURE paramtere for taht
+
+
+owlSetTexture the loaded texture
+
+use in CH/AH program
+
+also need to add texcoords buffer, and interpolate for sampling
+
+
