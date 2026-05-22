@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright (c) 2025 NVIDIA
+# SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA
 # CORPORATION & AFFILIATES. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 
@@ -6,8 +6,8 @@ cmake_minimum_required(VERSION 3.24)
 
 set(CMAKE_BUILD_TYPE_INIT "Release")
 
-set(chapter_number "2e")
-set(chapter_topic  "Instances")
+set(chapter_number "3b")
+set(chapter_topic  "ShadowRays")
 set(chapter_name "Chapter${chapter_number}_${chapter_topic}")
 
 project(${chapter_name} LANGUAGES CXX CUDA)
@@ -53,3 +53,4 @@ target_link_libraries(c${chapter_number}-${chapter_topic}
 target_compile_definitions(c${chapter_number}-${chapter_topic}
   PRIVATE
   -DCHAPTER_NAME=\"${chapter_name}\")
+  

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: Copyright (c) 2025 NVIDIA
+// SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA
 // CORPORATION & AFFILIATES. All rights reserved.
 // SPDX-License-Identifier: Apache-2.0
 
@@ -84,7 +84,7 @@ void SampleViewer::buildPipeline()
     { nullptr },
   };
   rg  = owlRayGenCreate
-    (owl,mod,"renderTestFrame",sizeof(RayGenData),rgVars,-1);
+    (owl,mod,"renderFrame",sizeof(RayGenData),rgVars,-1);
   assert(rg && "could not create raygen");
 
   // ------------------------------------------------------------------
@@ -122,15 +122,6 @@ void SampleViewer::buildPipeline()
   lp  = owlParamsCreate(owl,sizeof(OptixGlobals),lpVars,-1);
   assert(lp && "could not create launch params");
 
-  // ------------------------------------------------------------------
-  std::cout << "- creating miss program...\n";
-  OWLMissProg miss = owlMissProgCreate(owl,
-                                       // module and entry point name
-                                       mod,"missProg",
-                                       /*size*/0,
-                                       /*vars*/nullptr,-1);
-  assert(miss && "could not create miss program");
-  
   // ------------------------------------------------------------------
   std::cout << "- creating triangles geom type (no data for now)...\n";
   OWLVarDecl gtVars[] = {
@@ -319,11 +310,11 @@ void SampleViewer::render()
             << "\n(First) frame done rendering... (will only print this once)\n\n"
             << OWL_TERMINAL_DEFAULT;
   
-    const char *outFileName = "c2e-Instances.jpg";
+    const std::string outFileName = std::string(CHAPTER_NAME)+".jpg";
     std::cout << "- saving image (via STB) in " << outFileName << "...\n";
     // OWLViewer::fbPointer is in managed memory, so readable on host
     stbi_flip_vertically_on_write(true);
-    stbi_write_jpg(outFileName,fbSize.x,fbSize.y,4,
+    stbi_write_jpg(outFileName.c_str(),fbSize.x,fbSize.y,4,
                    fbPointer,fbSize.x*sizeof(uint32_t));
     std::cout << "- done saving; now back to interactive rendering...\n";
   }
@@ -353,9 +344,10 @@ int main(int ac, char **av)
     << OWL_TERMINAL_DEFAULT;
   
   std::cout << R"(
-This sample extends the previous samples to set up
-an instances accel struct that can do instancing
-(if such data is specified in the input scene).
+This sample introduces the concept of optix
+'per-ray-data' (PRD) to communicate between different
+pipeline programs, and how owl offers some convenient
+helpers to make it easier to use this.
 )";
 
   vec3f from = vec3f(0.f);

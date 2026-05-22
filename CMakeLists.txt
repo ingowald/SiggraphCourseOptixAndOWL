@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright (c) 2025 NVIDIA
+# SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA
 # CORPORATION & AFFILIATES. All rights reserved.
 # SPDX-License-Identifier: Apache-2.0
 
@@ -24,4 +24,7 @@ add_subdirectory(Chapter2b-InteractiveViewer)
 add_subdirectory(Chapter2c-FirstRealSceneGeometry)
 add_subdirectory(Chapter2d-SimpleShading)
 add_subdirectory(Chapter2e-Instances)
+
+add_subdirectory(Chapter3a-PerRayData)
+add_subdirectory(Chapter3b-ShadowRays)
 
