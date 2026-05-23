@@ -319,11 +319,11 @@ void SampleViewer::render()
             << "\n(First) frame done rendering... (will only print this once)\n\n"
             << OWL_TERMINAL_DEFAULT;
   
-    const char *outFileName = "c2e-Instances.jpg";
+    const std::string outFileName = std::string(CHAPTER_NAME)+".jpg";
     std::cout << "- saving image (via STB) in " << outFileName << "...\n";
     // OWLViewer::fbPointer is in managed memory, so readable on host
     stbi_flip_vertically_on_write(true);
-    stbi_write_jpg(outFileName,fbSize.x,fbSize.y,4,
+    stbi_write_jpg(outFileName.c_str(),fbSize.x,fbSize.y,4,
                    fbPointer,fbSize.x*sizeof(uint32_t));
     std::cout << "- done saving; now back to interactive rendering...\n";
   }
@@ -402,7 +402,7 @@ an instances accel struct that can do instancing
   
   std::cout << "- creating viewer (and letting it initialize itself)...\n";
   SampleViewer *sampleViewer = new SampleViewer(scene);
-  sampleViewer->setTitle("Chapter2e-Instances");
+  sampleViewer->setTitle(CHAPTER_NAME);
   // enable viewer's 'fly' and 'inspect' camera modes (last one
   // becomes default)
   sampleViewer->enableFlyMode();
