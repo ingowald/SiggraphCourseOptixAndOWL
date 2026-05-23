@@ -15,11 +15,12 @@ extern "C" char deviceCode_ptx[];
 
 int main(int ac, char **av)
 {
-  std::cout << OWL_TERMINAL_LIGHT_BLUE << R"(
-**********************************************************************
-c1e-OptixGlobalsAndLaunchParams:
-**********************************************************************
-            )" << OWL_TERMINAL_DEFAULT;
+  std::cout
+    << OWL_TERMINAL_LIGHT_BLUE
+    << "**********************************************************************\n"
+    << CHAPTER_NAME << "\n"
+    << "**********************************************************************\n"
+    << OWL_TERMINAL_DEFAULT;
   
   std::cout << R"(
 In this sample we show how to use __global__ optixLauchParams instead
@@ -123,9 +124,9 @@ the same image as sample 1d.
              cudaMemcpyDefault);
   cudaDeviceSynchronize();
 
-  const char *outFileName = "c1e-OptixGlobalsAndLaunchParams.jpg";
+  const std::string outFileName = std::string(CHAPTER_NAME)+".jpg";
   std::cout << "- saving image (via STB) in " << outFileName << "...\n";
-  stbi_write_jpg(outFileName,fbSize.x,fbSize.y,4,
+  stbi_write_jpg(outFileName.c_str(),fbSize.x,fbSize.y,4,
                  hostPixels.data(),fbSize.x*sizeof(uint32_t));
   
   // ==================================================================
