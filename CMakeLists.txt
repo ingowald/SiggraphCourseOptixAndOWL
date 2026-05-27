@@ -32,4 +32,5 @@ add_subdirectory(Chapter3d-Textures)
 add_subdirectory(Chapter3e-AlphaTextures)
 
 add_subdirectory(Chapter4a-DiffusePathTracing)
+add_subdirectory(Chapter4b-AccumBufferAndProgressiveRefinement)
 
