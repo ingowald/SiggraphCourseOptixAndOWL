@@ -1,0 +1,7 @@
+- resize callback
+
+- alloc/resize buffer for accumbuffer
+
+- track frameid
+
+- reset on keyboard or 'cameraChanged()'
