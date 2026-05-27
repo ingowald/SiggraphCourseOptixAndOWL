@@ -245,7 +245,10 @@ OPTIX_RAYGEN_PROGRAM(renderFrame)()
     // primary ray didn't hit anything; shade with background color,
     // and no need to shoot any shadow rays
     // ------------------------------------------------------------------
-    radiance = vec3f(.8f,.8f,1.f);
+
+    // use pete shirley's hacky background gradient from his RTOW samples
+    const float t = v;
+    radiance = (1.0f - t)*vec3f(1.0f, 1.0f, 1.0f) + t * vec3f(0.5f, 0.7f, 1.0f);
   } else {
     // ------------------------------------------------------------------
     // primary ray *did* hit something; let's shoot a shadow ray from
