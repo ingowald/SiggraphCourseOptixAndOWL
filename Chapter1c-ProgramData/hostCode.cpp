@@ -14,11 +14,12 @@ extern "C" char deviceCode_ptx[];
 
 int main(int ac, char **av)
 {
-  std::cout << OWL_TERMINAL_LIGHT_BLUE << R"(
-**********************************************************************
-Chapter1c-ProgramData:
-**********************************************************************
-            )" << OWL_TERMINAL_DEFAULT;
+  std::cout
+    << OWL_TERMINAL_LIGHT_BLUE
+    << "**********************************************************************\n"
+    << CHAPTER_NAME << "\n"
+    << "**********************************************************************\n"
+    << OWL_TERMINAL_DEFAULT;
   
   std::cout << R"(
 This sample shows hwo to declare and set 'program data' for device programs.

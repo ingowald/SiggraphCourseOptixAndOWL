@@ -15,11 +15,12 @@ extern "C" char deviceCode_ptx[];
 
 int main(int ac, char **av)
 {
-  std::cout << OWL_TERMINAL_LIGHT_BLUE << R"(
-**********************************************************************
-Chapter2a-FirstGeometry:
-**********************************************************************
-            )" << OWL_TERMINAL_DEFAULT;
+  std::cout
+    << OWL_TERMINAL_LIGHT_BLUE
+    << "**********************************************************************\n"
+    << CHAPTER_NAME << "\n"
+    << "**********************************************************************\n"
+    << OWL_TERMINAL_DEFAULT;
   
   std::cout << R"(
 In this sample we'll create our first device buffer to hold a frame
@@ -242,10 +243,10 @@ back on the host (where we'll save it to disk).
              cudaMemcpyDefault);
   cudaDeviceSynchronize();
 
-  const char *outFileName = "c2a-FirstGeometry.jpg";
+  const std::string outFileName = std::string(CHAPTER_NAME)+".jpg";
   std::cout << "- saving image (via STB) in " << outFileName << "...\n";
   stbi_flip_vertically_on_write(true);
-  stbi_write_jpg(outFileName,fbSize.x,fbSize.y,4,
+  stbi_write_jpg(outFileName.c_str(),fbSize.x,fbSize.y,4,
                  hostPixels.data(),fbSize.x*sizeof(uint32_t));
   
   // ==================================================================

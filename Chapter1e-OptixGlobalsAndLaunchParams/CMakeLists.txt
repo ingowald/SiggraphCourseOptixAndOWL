@@ -6,7 +6,11 @@ cmake_minimum_required(VERSION 3.24)
 
 set(CMAKE_BUILD_TYPE_INIT "Release")
 
-project(Chapter1e-OptixGlobalsAndLaunchParams LANGUAGES CXX CUDA)
+set(chapter_number "1e")
+set(chapter_topic  "OptixGlobalsAndLaunchParams")
+set(chapter_name "Chapter${chapter_number}_${chapter_topic}")
+
+project(${chapter_name} LANGUAGES CXX CUDA)
 
 if (NOT(TARGET owl::owl))
   add_subdirectory(../submodules/owl builddir-owl EXCLUDE_FROM_ALL)
@@ -19,7 +23,7 @@ endif()
 embed_ptx(
   OUTPUT_TARGET
   # this is what the main app will link against:
-  c1e_embedded_deviceCode
+  c${chapter_number}_embedded_deviceCode
   
   PTX_LINK_LIBRARIES
   owl::owl_static
@@ -29,14 +33,18 @@ embed_ptx(
   )
 
 # define what this chapter builds
-add_executable(c1e-OptixGlobalsAndLaunchParams
+add_executable(c${chapter_number}-${chapter_topic}
   hostCode.cpp
 )
 
 # (cmake-)link this to the owl::OWL target; this will automatically
 # set the include paths, add the dependency to the OWL library, etc.
-target_link_libraries(c1e-OptixGlobalsAndLaunchParams
+target_link_libraries(c${chapter_number}-${chapter_topic}
   owl::owl_static
-  c1e_embedded_deviceCode
+  c${chapter_number}_embedded_deviceCode
   stb_image
 )
+target_compile_definitions(c${chapter_number}-${chapter_topic}
+  PRIVATE
+  -DCHAPTER_NAME=\"${chapter_name}\")
+  

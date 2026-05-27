@@ -9,11 +9,12 @@
 
 int main(int ac, char **av)
 {
-  std::cout << OWL_TERMINAL_LIGHT_BLUE << R"(
-**********************************************************************
-Chapter1a-HelloOWL:
-**********************************************************************
-            )" << OWL_TERMINAL_DEFAULT;
+  std::cout
+    << OWL_TERMINAL_LIGHT_BLUE
+    << "**********************************************************************\n"
+    << CHAPTER_NAME << "\n"
+    << "**********************************************************************\n"
+    << OWL_TERMINAL_DEFAULT;
   
   std::cout << R"(
 This sample won't do anything useful (nor produce any outputs beyond

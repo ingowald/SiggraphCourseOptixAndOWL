@@ -394,7 +394,7 @@ helpers to make it easier to use this.
   
   std::cout << "- creating viewer (and letting it initialize itself)...\n";
   SampleViewer *sampleViewer = new SampleViewer(scene);
-  sampleViewer->setTitle("Chapter2e-Instances");
+  sampleViewer->setTitle(CHAPTER_NAME);
   // enable viewer's 'fly' and 'inspect' camera modes (last one
   // becomes default)
   sampleViewer->enableFlyMode();
