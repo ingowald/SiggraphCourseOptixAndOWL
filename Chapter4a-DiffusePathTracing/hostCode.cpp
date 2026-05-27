@@ -16,14 +16,6 @@
 // the "embedded" precompiled PTX-code from our deviceCode.cu. 
 extern "C" char deviceCode_ptx[];
 
-typedef enum { ALPHA_BOTH=0, ALPHA_NONE, ALPHA_PRIMARY_ONLY } AlphaTextureMode;
-int alphaTextureMode = ALPHA_BOTH;
-const char *alphaTextureModeDescription[] = {
-  "both primary and shadow rays",
-  "no alpha channel for either primary or shadow rays",
-  "do alpha channel for primary, but not for shadow rays"
-};
-
 struct SampleViewer : public owl::viewer::OWLViewer
 {
   SampleViewer(mini::Scene::SP scene);
@@ -42,7 +34,7 @@ struct SampleViewer : public owl::viewer::OWLViewer
       OWLViewer::fbPointer[] with OWLViewer::fbSize rgba8 pixel
       values; the viewer base class will do the rest */
   void render() override;
-  
+
   /*! this gets called when the user presses a key on the keyboard ... */
   void key(char key, const vec2i &/*where*/) override;
   
@@ -68,7 +60,11 @@ struct SampleViewer : public owl::viewer::OWLViewer
       will be set in buildSceneGeometry */
   OWLGroup        tlas = 0;
 
-
+  /*! track some linear sequence number for each frame, so each frame
+      can use a new set of random numbers. */
+  int numFramesRendered = 0;
+  int disablePathTracing = false;
+  
   // use a texture library/texture cache to avoid re-creating the same
   // texture for every geometry that's using it.
   std::map<mini::Texture::SP,OWLTexture> textureLibrary;
@@ -79,6 +75,18 @@ SampleViewer::SampleViewer(mini::Scene::SP scene)
 {
   buildPipeline();
   buildSceneGeometry();
+}
+
+/*! this gets called when the user presses a key on the keyboard ... */
+void SampleViewer::key(char key, const vec2i &where) 
+{
+  switch (key) {
+  case ' ': {
+    disablePathTracing = !disablePathTracing;
+  } break;
+  default:
+    owl::viewer::OWLViewer::key(key,where);
+  }
 }
 
 void SampleViewer::buildPipeline()
@@ -137,17 +145,20 @@ void SampleViewer::buildPipeline()
       OWL_FLOAT3,
       OWL_OFFSETOF(OptixGlobals,camera.dir_dv) },
     // ------------------------------------------------------------------
-    { "doAlphaRegularRays",
-      OWL_INT,
-      OWL_OFFSETOF(OptixGlobals,doAlphaRegularRays) },
-    // ------------------------------------------------------------------
-    { "doAlphaShadowRays",
-      OWL_INT,
-      OWL_OFFSETOF(OptixGlobals,doAlphaShadowRays) },
-    // ------------------------------------------------------------------
     { "world",
       OWL_GROUP,
       OWL_OFFSETOF(OptixGlobals,world) },
+    // ------------------------------------------------------------------
+    // delta: add some frame ID
+    { "frameID",
+      OWL_INT,
+      OWL_OFFSETOF(OptixGlobals,frameID) },
+    // ------------------------------------------------------------------
+#if FOR_ILLUSTRATION_ONLY
+    { "disablePathTracing",
+      OWL_INT,
+      OWL_OFFSETOF(OptixGlobals,disablePathTracing) },
+#endif
     // ------------------------------------------------------------------
     { nullptr },
   };
@@ -393,60 +404,14 @@ void SampleViewer::buildSceneGeometry()
   owlBuildSBT(owl);
 }
 
-/*! this gets called when the user presses a key on the keyboard ... */
-void SampleViewer::key(char key, const vec2i &where) 
-{
-  switch (key) {
-  case '1': {
-    vec3f from = vec3f(-1388.46, 1937.5, 4309.81);
-    vec3f at = vec3f(-3865.96, -1793.97, 6061.06);
-    vec3f up = vec3f(0, 1, 0);
-    float fovy = 60.f;
-    this->setCameraOrientation(from,at,up,fovy);
-  } break;
-  case '2': {
-    vec3f from = vec3f(-678.018, 618.124, 3672.22);
-    vec3f at   = vec3f(-1733.15, -3330.65, 1137.9);
-    vec3f up   = vec3f(0, 1, 0);
-    float fovy = 60.f;
-    this->setCameraOrientation(from,at,up,fovy);
-  } break;
-  case ' ': {
-    alphaTextureMode = (alphaTextureMode+1)%3;
-    std::cout << "seeing alpha texture mode to '"
-              << alphaTextureModeDescription[alphaTextureMode] << "'\n";
-    break;
-  }
-  case '\\': {
-    alphaTextureMode = (alphaTextureMode+2)%3;
-    std::cout << "seeing alpha texture mode to '"
-              << alphaTextureModeDescription[alphaTextureMode] << "'\n";
-    break;
-  }
-  default:
-    owl::viewer::OWLViewer::key(key,where);
-  }
-}
-  
-
 void SampleViewer::render()
 {
-  static int frameID = 0;
-  const bool firstFrameOnly = (++frameID == 1);
-  // ------------------------------------------------------------------
-  if (firstFrameOnly)
-    std::cout << "- setting frame buffer data in launch params...\n";
+  int frameID = this->numFramesRendered++;
+  
   owlParamsSet2i(lp,"fb.size",fbSize.x,fbSize.y);
   owlParamsSetPointer(lp,"fb.data",fbPointer);
-  
-  // ------------------------------------------------------------------
-  if (firstFrameOnly)
-    std::cout << "- setting world in launch params...\n";
   owlParamsSetGroup(lp,"world",tlas);
 
-  // ------------------------------------------------------------------
-  if (firstFrameOnly)
-    std::cout << "- setting camera in launch params...\n";
   auto camera = this->getSimplifiedCamera();
   owlParamsSet3f(lp,"camera.position",
                  camera.lens.center.x,
@@ -464,29 +429,13 @@ void SampleViewer::render()
                  camera.focalPlane.vertical.x,
                  camera.focalPlane.vertical.y,
                  camera.focalPlane.vertical.z);
-
-  switch (alphaTextureMode) {
-  case ALPHA_BOTH:
-    owlParamsSet1i(lp,"doAlphaRegularRays",1);
-    owlParamsSet1i(lp,"doAlphaShadowRays",1);
-    break;
-  case ALPHA_NONE:
-    owlParamsSet1i(lp,"doAlphaRegularRays",0);
-    owlParamsSet1i(lp,"doAlphaShadowRays",0);
-    break;
-  case ALPHA_PRIMARY_ONLY:
-    owlParamsSet1i(lp,"doAlphaRegularRays",1);
-    owlParamsSet1i(lp,"doAlphaShadowRays",0);
-    break;
-  default:
-    ;
-  }
-  
+  owlParamsSet1i(lp,"frameID",frameID);
+#if FOR_ILLUSTRATION_ONLY
+  owlParamsSet1i(lp,"disablePathTracing",disablePathTracing);
+#endif  
   // ------------------------------------------------------------------
-  if (firstFrameOnly)
-    std::cout << "- launching raygen...\n\n";  
   owlLaunch2D(rg,fbSize.x,fbSize.y,lp);
-  if (firstFrameOnly) {
+  if (frameID == 0) {
     std::cout << OWL_TERMINAL_LIGHT_GREEN
               << "\n(First) frame done rendering... (will only print this once)\n\n"
               << OWL_TERMINAL_DEFAULT;
@@ -601,36 +550,10 @@ helpers to make it easier to use this.
 
     if (scene->instances.size() == 30035) {
       // hack: get soem useful start-up camera for the landscape model
-      from = vec3f(-1388.46, 1937.5, 4309.81);
-      at = vec3f(-3865.96, -1793.97, 6061.06);
-      up = vec3f(0, 1, 0);
-      fovy = 60.f;
-      std::cout << OWL_TERMINAL_GREEN;
-      std::cout << "*******************************************************\n";
-      std::cout << "This sample works best with the 'ls.mini' model, and\n";
-      std::cout << "it looks like you're actually using that. Good.\n";
-      std::cout << "Now:\n";
-      std::cout << "- press 'space' and '\\' to flip between different\n";
-      std::cout << "  ways of handling alpha.\n";
-      std::cout << "- press '1' or '2' to set to some interesting views\n";
-      std::cout << "  where that effect should be most obvious\n";
-      std::cout << "*******************************************************\n";
-      std::cout << OWL_TERMINAL_DEFAULT;
-      std::cout << "(press enter to proceed)\n";
-      while(std::cin.get() != '\n');
+      from = { -5980.32f, 6014.52f, -1581.8f };
+      at = { 896.848f, -1414.59f, 3290.6f };
+      up = {0.f,1.f,0.f};
     } else {
-      std::cout << OWL_TERMINAL_RED;
-      std::cout << "*******************************************************\n";
-      std::cout << "note this example is mostly about showing the effect\n";
-      std::cout << "of handling texture transparency in AH programs; which\n";
-      std::cout << "only makes sense for models that do have such textures.\n";
-      std::cout << "Specifically this sample was built for the `ls.mini`\n";
-      std::cout << "model, but this seems to be a different model you've\n";
-      std::cout << "loaded. I suggest you use the ls.mini model instead.\n";
-      std::cout << "*******************************************************\n";
-      std::cout << OWL_TERMINAL_DEFAULT;
-      std::cout << "(press enter to proceed)\n";
-      while(std::cin.get() != '\n');
       up = {0.f,1.f,0.f};
       at = worldBounds.center();
       vec3f diag = worldBounds.size();

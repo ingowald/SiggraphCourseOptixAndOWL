@@ -14,6 +14,8 @@
 
 using namespace owl::common;
 
+#define FOR_ILLUSTRATION_ONLY 1
+
 /*! the OptixGlobals that we'll store in 'global' constant memory;
     this means we could change this data every frame (or even across
     multiple parallel launches) without having to rebuild the SBT
@@ -31,10 +33,11 @@ struct OptixGlobals {
     vec3f dir_dv;
   } camera;
   OptixTraversableHandle world;
-  /* only for this sample: enable/disable AH program to show effect of
-     alpha transparency/decal handling interactively */
-  int doAlphaRegularRays;
-  int doAlphaShadowRays;
+  int frameID;
+
+#if FOR_ILLUSTRATION_ONLY
+  int disablePathTracing;
+#endif
 };
 
 /*! data for the triangles geometry we're going to use */
