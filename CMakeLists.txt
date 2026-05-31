@@ -36,4 +36,5 @@ add_subdirectory(Chapter4b-AccumBufferAndProgressiveRefinement)
 add_subdirectory(Chapter4c-ReflectionRefraction)
 
 add_subdirectory(Chapter5a-UserGeom)
+add_subdirectory(Chapter5b-CudaInterOp)
 
