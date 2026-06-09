@@ -16,6 +16,9 @@ OPTIX_MISS_PROGRAM(missProg)()
   fb.data[pixel.x+pixel.y*fb.size.x] = bgColor;
 }
 
+inline __device__ bool dbg()
+{ return vec2i(optixGetLaunchIndex()) == vec2i(optixGetLaunchDimensions())/2; }
+
 OPTIX_CLOSEST_HIT_PROGRAM(TrianglesCH)()
 {
   auto fb = optixLaunchParams.frameBuffer;
@@ -35,7 +38,8 @@ OPTIX_CLOSEST_HIT_PROGRAM(TrianglesCH)()
   shadeColor = sqrt(shadeColor);
   
   vec2i pixel = owl::getLaunchIndex();
-  fb.data[pixel.x+pixel.y*fb.size.x] = owl::make_rgba(shadeColor);
+  int32_t rgba = owl::make_rgba(shadeColor);
+  fb.data[pixel.x+pixel.y*fb.size.x] = rgba;
 }
 
 OPTIX_RAYGEN_PROGRAM(renderTestFrame)()

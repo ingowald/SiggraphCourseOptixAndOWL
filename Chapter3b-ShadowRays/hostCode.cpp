@@ -31,6 +31,9 @@ struct SampleViewer : public owl::viewer::OWLViewer
       TLAS, etc */
   void buildSceneGeometry();
 
+  /*! this gets called when the user presses a key on the keyboard ... */
+  void key(char key, const vec2i &/*where*/) override;
+  
   /*! the actual render frame callback - just fill the
       OWLViewer::fbPointer[] with OWLViewer::fbSize rgba8 pixel
       values; the viewer base class will do the rest */
@@ -52,7 +55,24 @@ struct SampleViewer : public owl::viewer::OWLViewer
   /*! the top-level accel struct (our samples will only have one);
       will be set in buildSceneGeometry */
   OWLGroup        tlas = 0;
+  bool enableShadows = true;
 };
+
+/*! this gets called when the user presses a key on the keyboard ... */
+void SampleViewer::key(char key, const vec2i &where) 
+{
+  switch (key) {
+  case ' ': {
+    enableShadows = !enableShadows;
+    std::cout << "seeing alpha texture mode to '"
+              << (enableShadows?"ON":"OFF") << "'\n";
+    break;
+  }
+  default:
+    owl::viewer::OWLViewer::key(key,where);
+  }
+}
+
 
 SampleViewer::SampleViewer(mini::Scene::SP scene)
   : scene(scene)
@@ -115,6 +135,10 @@ void SampleViewer::buildPipeline()
     { "world",
       OWL_GROUP,
       OWL_OFFSETOF(OptixGlobals,world) },
+    // just for fun's sake - allow enabling/disabling shadows in viewer
+    { "enableShadows",
+      OWL_INT,
+      OWL_OFFSETOF(OptixGlobals,enableShadows) },
     // ------------------------------------------------------------------
     { nullptr },
   };
@@ -279,6 +303,7 @@ void SampleViewer::render()
   if (firstFrameOnly)
     std::cout << "- setting world in launch params...\n";
   owlParamsSetGroup(lp,"world",tlas);
+  owlParamsSet1i(lp,"enableShadows",(int)enableShadows);
 
   // ------------------------------------------------------------------
   if (firstFrameOnly)
@@ -431,6 +456,9 @@ helpers to make it easier to use this.
       from = at + 1.5f*vec3f(-.15f, .2f, +1.f) * diag.y;
     }
   }
+
+
+  std::cout << "\npress space to enable/disable shadows...\n";
   
   sampleViewer->setCameraOrientation
     (from,at,up,60.f);

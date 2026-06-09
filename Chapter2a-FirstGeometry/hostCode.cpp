@@ -212,7 +212,7 @@ back on the host (where we'll save it to disk).
   // let's do a 1024^2 image. Note this is intentionally square
   // because the trival hardcoded 'camera' that this samples' raygen
   // program uses can't do aspect ration, yet
-  vec2i fbSize = vec2i(1024,1024);
+  vec2i fbSize = vec2i(1600,1200);
   OWLBuffer fb = owlDeviceBufferCreate(owl,OWL_INT,fbSize.x*fbSize.y,
                                        /* no host data to upload */
                                        nullptr);

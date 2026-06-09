@@ -146,7 +146,10 @@ OPTIX_RAYGEN_PROGRAM(renderFrame)()
     owl::traceRay(optixLaunchParams.world,
                   shadowRay,
                   prd);
-    bool isIlluminated = !prd.hadHit;
+    bool isIlluminated
+    = optixLaunchParams.enableShadows
+    ? (prd.hadHit == false)
+    : /* shadows disabled by user, always illuminated */ true;
 
     // compute one term for ambient illumiation, using the same
     // 'eyelight' term as before, just toned down by 10x.

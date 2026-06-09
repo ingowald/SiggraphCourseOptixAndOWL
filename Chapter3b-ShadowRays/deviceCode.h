@@ -38,6 +38,7 @@ struct OptixGlobals {
     vec3f dir_dv;
   } camera;
   OptixTraversableHandle world;
+  int enableShadows;
 };
 
 /*! data for the triangles geometry we're going to use */

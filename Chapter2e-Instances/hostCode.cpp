@@ -387,12 +387,26 @@ an instances accel struct that can do instancing
 
   // ==================================================================
   if (sceneFileName == "")
-    sceneFileName = "../data/owls.mini";
+    sceneFileName = "../data/ls.mini";
+    // sceneFileName = "../data/owls.mini";
   
   std::cout << OWL_TERMINAL_LIGHT_BLUE
             << "\nLoading some input scene (from " << sceneFileName << "):\n"
             << OWL_TERMINAL_DEFAULT;
-  mini::Scene::SP scene = mini::Scene::load(sceneFileName);
+  mini::Scene::SP scene;
+  try {
+    scene = mini::Scene::load(sceneFileName);
+  } catch (std::exception) {
+    std::cout << "could not load model - for this sample, best use the PBRT landscape scene\n";
+    std::cout << "download mini format from this link:\n";
+    std::cout << OWL_TERMINAL_GREEN;
+    std::cout << "https://drive.google.com/file/d/1_opB0ZAS8jDRBRVJXBFbfDbZ5praXAsb/view?usp=sharing\n";
+    std::cout << OWL_TERMINAL_DEFAULT;
+    std::cout << "then place that into the data/ directory next to the owls.mini files:\n";
+    exit(0);
+  }
+
+  
   std::cout << "done loading scene, found: " << std::endl;
   std::cout << "- num instances: " << scene->instances.size() << std::endl;
   box3f worldBounds;

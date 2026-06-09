@@ -1,4 +1,16 @@
-# SiggraphCourseOptixAndOWL
+# SiggraphCourseOptixAndOWL - Samples for the Siggraph 26 Course on
+RTX Ray Tracing with OptiX and OWL
+
+*Note*: For best experience, please download the `PBRT landscape` model
+in mini format from this link:
+
+https://drive.google.com/file/d/1_opB0ZAS8jDRBRVJXBFbfDbZ5praXAsb/view?usp=sharing
+
+... and place the downloaded file into the `data/` directory of
+your clone of this repo.
+
+
+# Chapters
 
 This repo is work-in-progress; it is supposed to host the different
 tutorial 'chapters' for the upcoming Siggraph 2026 "OptiX and OWL"
