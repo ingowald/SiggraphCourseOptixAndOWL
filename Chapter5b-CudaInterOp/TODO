@@ -1,7 +1,0 @@
-hostCode now cu file, not cpp
-
-save owl buffer handles for spheres positions and materials
-
-add cuda kernels that animate those each frame.
-
-add owlGroupRebuild() and owlBuildSBT() after animating

@@ -13,28 +13,5 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 
-add_subdirectory(Chapter1a-HelloOWL)
-add_subdirectory(Chapter1b-HelloRayGen)
-add_subdirectory(Chapter1c-ProgramData)
-add_subdirectory(Chapter1d-FirstBufferAndTestFrame)
 add_subdirectory(Chapter1e-OptixGlobalsAndLaunchParams)
-
-add_subdirectory(Chapter2a-FirstGeometry)
-add_subdirectory(Chapter2b-InteractiveViewer)
-add_subdirectory(Chapter2c-FirstRealSceneGeometry)
-add_subdirectory(Chapter2d-SimpleShading)
-add_subdirectory(Chapter2e-Instances)
-
-add_subdirectory(Chapter3a-PerRayData)
-add_subdirectory(Chapter3b-ShadowRays)
-add_subdirectory(Chapter3c-MultipleRayTypesAnyHitAndTerminateRay)
-add_subdirectory(Chapter3d-Textures)
-add_subdirectory(Chapter3e-AlphaTextures)
-
-add_subdirectory(Chapter4a-DiffusePathTracing)
-add_subdirectory(Chapter4b-AccumBufferAndProgressiveRefinement)
-add_subdirectory(Chapter4c-ReflectionRefraction)
-
-add_subdirectory(Chapter5a-UserGeom)
-add_subdirectory(Chapter5b-CudaInterOp)
 
