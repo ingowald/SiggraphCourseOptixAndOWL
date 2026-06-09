@@ -27,5 +27,12 @@ OPTIX_RAYGEN_PROGRAM(renderTestFrame)()
     | (a << 24);
   
   fb.data[pixel.x+pixel.y*fb.size.x] = rgba8;
+
+if (pixel == vec2i(0,0)) {
+for (int i=0;i<10;i++)
+   optixLaunchParams.managedMem[i] = i+optixLaunchParams.frameID;
+   printf("on device: wrote %p[0] = %i\n",optixLaunchParams.managedMem,
+   optixLaunchParams.managedMem[0]);
+}
 }
 

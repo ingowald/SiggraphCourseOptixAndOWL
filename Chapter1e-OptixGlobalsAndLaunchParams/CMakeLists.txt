@@ -34,7 +34,7 @@ embed_ptx(
 
 # define what this chapter builds
 add_executable(c${chapter_number}-${chapter_topic}
-  hostCode.cpp
+  hostCode.cu
 )
 
 # (cmake-)link this to the owl::OWL target; this will automatically

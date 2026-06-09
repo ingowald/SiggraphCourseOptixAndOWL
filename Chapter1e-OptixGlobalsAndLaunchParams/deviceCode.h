@@ -31,6 +31,8 @@ struct OptixGlobals {
     vec2i     size;
     uint32_t *data;
   } frameBuffer;
+  int *managedMem;
+  int frameID;
 };
 
 /*! the raygen program data values. for now we moved everything into

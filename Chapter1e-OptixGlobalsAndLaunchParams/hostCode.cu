@@ -13,6 +13,13 @@
 // the "embedded" precompiled PTX-code from our deviceCode.cu. 
 extern "C" char deviceCode_ptx[];
 
+__global__ void dummy(int *ptr)
+{
+if (threadIdx.x == 0)
+printf("cuda kernel sees managedmem %p[0] = %i\n",
+ptr,ptr[0]);
+}
+
 int main(int ac, char **av)
 {
   std::cout
@@ -64,6 +71,13 @@ the same image as sample 1d.
       OWL_BUFPTR,
       OWL_OFFSETOF(OptixGlobals,frameBuffer.data) },
     // ------------------------------------------------------------------
+    { "frameID",
+      OWL_INT,
+      OWL_OFFSETOF(OptixGlobals,frameID) },
+    { "managedMem",
+      OWL_RAW_POINTER,
+      OWL_OFFSETOF(OptixGlobals,managedMem) },
+    // ------------------------------------------------------------------
     /* last entry is a nullptr for name; this serves as 'sentinel' to
        mark end of list */
     { nullptr },
@@ -107,8 +121,30 @@ the same image as sample 1d.
 
   // ------------------------------------------------------------------
   std::cout << "- launching raygen programs with launch params...\n\n";
+
+int *managedMem;
+cudaMallocManaged((void **)&managedMem,1024);
+owlParamsSetPointer(lp,"managedMem",managedMem);
+
+std::cout << "==== withOUT some dummy cuda kernel call =====" << std::endl;
+for (int i=0;i<10;i++) {
+owlParamsSet1i(lp,"frameID",i);
   owlLaunch2D(rg,fbSize.x,fbSize.y,lp);
-  
+  cudaDeviceSynchronize();
+  printf("on host: managedMem %p[0] = %i\n",managedMem,managedMem[0]);
+  }
+
+std::cout << "==== WITH some dummy cuda kernel call =====" << std::endl;
+for (int i=0;i<10;i++) {
+owlParamsSet1i(lp,"frameID",i);
+  owlLaunch2D(rg,fbSize.x,fbSize.y,lp);
+  cudaDeviceSynchronize();
+  dummy<<<1,32>>>(managedMem);
+  cudaDeviceSynchronize();
+  printf("on host: managedMem %p[0] = %i\n",managedMem,managedMem[0]);
+  }
+
+
   // ==================================================================
   std::cout << OWL_TERMINAL_LIGHT_BLUE
             << "\nLaunch completed; downloading rendered image:\n"
