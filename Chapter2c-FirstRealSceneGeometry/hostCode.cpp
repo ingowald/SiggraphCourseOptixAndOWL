@@ -354,8 +354,11 @@ geometries, blas, and tlas for that geometry.
 
   // ==================================================================
   if (sceneFileName == "")
+#if WIN32
+    sceneFileName = "../../data/owls.mini";
+#else
     sceneFileName = "../data/owls.mini";
-  
+#endif
   std::cout << OWL_TERMINAL_LIGHT_BLUE
             << "\nLoading some input scene (from " << sceneFileName << "):\n"
             << OWL_TERMINAL_DEFAULT;

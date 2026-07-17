@@ -402,8 +402,15 @@ helpers to make it easier to use this.
 
   // ==================================================================
   if (sceneFileName == "")
-    sceneFileName = "../data/peteAndI.mini";
-//sceneFileName = "../data/owls.mini";
+#if WIN32
+      sceneFileName = "../../data/peteAndI.mini";
+  // sceneFileName = "../../data/ls.mini";
+  // sceneFileName = "../../data/owls.mini";
+#else
+      sceneFileName = "../data/peteAndI.mini";
+  // sceneFileName = "../data/ls.mini";
+  // sceneFileName = "../data/owls.mini";
+#endif
   
   std::cout << OWL_TERMINAL_LIGHT_BLUE
             << "\nLoading some input scene (from " << sceneFileName << "):\n"

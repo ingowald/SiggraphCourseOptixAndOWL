@@ -387,8 +387,13 @@ an instances accel struct that can do instancing
 
   // ==================================================================
   if (sceneFileName == "")
-    sceneFileName = "../data/ls.mini";
-    // sceneFileName = "../data/owls.mini";
+#if WIN32
+      sceneFileName = "../../data/ls.mini";
+ // sceneFileName = "../../data/owls.mini";
+#else
+      sceneFileName = "../data/ls.mini";
+ // sceneFileName = "../data/owls.mini";
+#endif
   
   std::cout << OWL_TERMINAL_LIGHT_BLUE
             << "\nLoading some input scene (from " << sceneFileName << "):\n"
