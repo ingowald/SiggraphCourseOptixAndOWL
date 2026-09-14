@@ -1,5 +1,11 @@
-# SiggraphCourseOptixAndOWL - Samples for the Siggraph 26 Course on
-RTX Ray Tracing with OptiX and OWL
+# Siggraph 2026 Course on OptiX and OWL
+
+This repo contain the tutorial/sample code(s) for the 
+Siggraph 26 Course on RTX Ray Tracing with OptiX and OWL.
+
+*SLIDES*: Slides from the course (in PDF) are available
+to download from from google drive, at 
+https://drive.google.com/file/d/1myk5sOZXQ5JyWPdYCVj3zkwpj3XDqs6R/view?usp=sharing
 
 *Note*: For best experience, please download the `PBRT landscape` model
 in mini format from this link:
